@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for picture in latest_picture_list %}
+        <tr>
+            <td><a href="{% url 'portfolio:detail' picture.id %}">{{ picture.name }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

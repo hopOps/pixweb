@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Item</th>
+        </tr>
+    </thead>
+ <!--   <tbody>
+    {% for item in all_picture %}
+        <tr>
+            <td>{{ item.name }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    -->
+    <div class="row">
+    {% for item in all_picture %}
+    <div class="col">
+          <h8>{{ item.name }}</h8>
+            <br/>
+          <a href="{% url 'portfolio:detail' item.id %}"><img class="img-fluid" src="{{ item.photo }}" alt="abc" width="200"></a>
+    </div>
+
+    {% endfor %}
+    </div>
+
+</table>
+
+{% if all_picture %}
+<table>
+    <tr class="pagination">
+        {% if all_picture.has_previous %}
+            <td><a href="?page{{ all_picture.previous_page_number }}">Previous</a></td>
+        {% endif %}
+                <td class="">
+                    <span>{{ all_picture.number }} of {{ all_picture.paginator.num_pages }}.</span>
+                </td>
+        {% if all_picture.has_next %}
+            <td><a href="?page={{ all_picture.next_page_number }}">Next</a></td>
+        {% endif %}
+
+        </tr>
+    {% endif %}
+</table>
+
+{% endblock content %}
