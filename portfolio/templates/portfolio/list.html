@@ -13,7 +13,7 @@
     <tbody>
     {% for picture in latest_picture_list %}
         <tr>
-            <td><a href="{% url 'portfolio:detail' picture.id %}">{{ picture.name }}</a></td>
+            <td><a href="{% url 'portfolio:picture' picture.id %}">{{ picture.name }}</a></td>
         </tr>
     {% endfor %}
     </tbody>

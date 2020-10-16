@@ -5,12 +5,14 @@ from django.views import generic, View
 from django.core.exceptions import ViewDoesNotExist
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger
+from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.models import User
 
 from .models import Picture
 # Create your views here.
 
 
-class detail(generic.DetailView):
+class picture(generic.DetailView):
     model = Picture
     template_name = 'portfolio/picture.html'
 
@@ -24,7 +26,7 @@ class list(generic.ListView):
         return Picture.objects.all()
 
 
-def display(request):
+def gallery(request):
     all_picture = Picture.objects.all()
     paginator = Paginator(all_picture, 5)
     pages = request.GET.get('page', 1)
@@ -33,8 +35,48 @@ def display(request):
         all_picture = paginator.page(pages)
     except PageNotAnInteger:
         all_picture = paginator.page(1)
-    return render(request, 'portfolio/display.html', {'all_picture': all_picture})
+    return render(request, 'portfolio/gallery.html', {'all_picture': all_picture})
 
 
 def index(request):
-    return HttpResponse("Hello there, e-commerce store front coming here..")
+    return render(request, "portfolio/index.html")
+
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        if(username == ""):
+            return HttpResponse("No Username!")
+        if (password == ""):
+            return HttpResponse("No password!")
+        user = authenticate(username=username, password=password)
+        if(user is None):
+            return HttpResponse("Unauthorized!")
+        else:
+            login(request, user)
+            return redirect('portfolio/')
+    return render(request, 'portfolio/login.html')
+
+
+def logout_user(request):
+    logout(request)
+    return HttpResponse("Successfully logged out!")
+
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+        if(username == ""): return HttpResponse("No Username!")
+        if(password == ""): return HttpResponse("No password!")
+        if(email == ""): return HttpResponse("No email!")
+        created = User.objects.create_user(username=username, password=password, email=email)
+        user = authenticate(username=username, password=password)
+        if (user is None):
+            return HttpResponse("Unauthorized!")
+        else:
+            login(request, user)
+            return redirect('portfolio//')
+    return render(request, 'portfolio/register.html')

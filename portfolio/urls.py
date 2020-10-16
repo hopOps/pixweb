@@ -9,8 +9,11 @@ app_name = 'portfolio'
 
 urlpatterns = [
     path('list', views.list.as_view(), name="list"),
-    path('display', views.display, name="display"),
-    path('<int:pk>', views.detail.as_view(), name="detail"),
+    path('gallery', views.gallery, name="gallery"),
+    path('register', views.register, name="register"),
+    path('logout', views.logout_user, name="logout"),
+    path('login', views.login_user, name="login"),
+    path('<int:pk>', views.picture.as_view(), name="picture"),
     path('', views.index, name="index"),
 ]
 
