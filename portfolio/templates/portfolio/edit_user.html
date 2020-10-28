@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+<h1>Edit User</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="Email">
+    <input type="num_ftf" name="num_ftf" placeholder="num_ftf">
+    <input type="phone" name="phone" placeholder="phone" />
+    <input type="address" name="address" placeholder="address">
+    <input type="postal_code" name="postal_code" placeholder="postal_code">
+    <input type="city" name="city" placeholder="city">
+    <input type="site_web" name="site_web" placeholder="site_web">
+    <input type="flickr" name="flickr" placeholder="flickr">
+    <input type="facebook" name="facebook" placeholder="facebook">
+    <input type="twitter" name="twitter" placeholder="twitter">
+    <button type="submit">register</button>
+</form>
+{% endblock content %}

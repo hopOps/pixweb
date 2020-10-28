@@ -23,6 +23,9 @@
         <a class="nav-link" href="{% url 'portfolio:index' %}">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
+        <a class="nav-link" href="{% url 'portfolio:index' %}">Blog</a>
+      </li>
+      <li class="nav-item active">
         <a class="nav-link" href="{% url 'portfolio:gallery' %}">Gallery</a>
       </li>
       <li class="nav-item">
@@ -36,14 +39,38 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li>
-    </ul>
+      </ul>
+      {% if user.is_authenticated %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.get_username }}</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01">
+          <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+          <a class="dropdown-item" href="{% url 'portfolio:edit_user' %}">Edit Profile</a>
+          <a class="dropdown-item" href="{% url 'portfolio:logout' %}">Logout</a>
+        </div>
+      </li>
+      {% else %}
+
     <form class="form-inline my-2 my-lg-0">
       <a class="btn btn-secondary my-2 my-sm-0" href="{% url 'portfolio:login' %}" >Login</a>
     </form>
+    {% endif %}
   </div>
 </nav>
 
 <div class="mt-5">
+  {% if messages %}
+    <ul class="messages">
+        {% for msg in messages %}
+        <li>
+            <div class="alert alert-success" role="alert">
+            {{msg.message}}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+
   {% block content %}
 
   {% endblock content %}
