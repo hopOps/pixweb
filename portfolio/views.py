@@ -1,14 +1,16 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
-#from django.http import HttpResponse, HttpResponseNotFound, request, response
+from django.http import HttpResponse, HttpResponseNotFound, request, response
 from django.views import generic, View
 from django.core.exceptions import ViewDoesNotExist
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 
 from .models import Picture, Profile
+from .forms import EditUser
 # Create your views here.
 
 
@@ -24,6 +26,23 @@ class list(generic.ListView):
     def get_queryset(self):
         """Return the last five published pictures."""
         return Picture.objects.all()
+
+
+# def isUser(user):
+#     return user.username == "staff"
+
+
+# @user_passes_test(isUser, login_url="/login")
+def mygallery(request):
+    user = User.objects.only('id').get(username=request.user)
+    all_picture = Picture.objects.filter(user=user)
+    paginator = Paginator(all_picture, 5)
+    pages = request.GET.get('page', 1)
+    try:
+        all_picture = paginator.page(pages)
+    except PageNotAnInteger:
+        all_picture = paginator.page(1)
+    return render(request, 'portfolio/mygallery.html', {'all_picture': all_picture})
 
 
 def gallery(request):
@@ -84,31 +103,40 @@ def register(request):
             profile, created = Profile.objects.get_or_create(user=request.user)
             user.profile.num_ftf = num_ftf
             user.save()
-            return redirect('/')
+            return redirect('portfolio')
     return render(request, 'portfolio/register.html')
 
 
+@login_required
 def edit_user(request):
+    # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        user = request.user
-        phone = request.POST['phone']
-        address = request.POST['address']
-        postal_code = request.POST['postal_code']
-        city = request.POST['city']
-        site_web = request.POST['site_web']
-        instagram = request.POST['instagram']
-        flickr = request.POST['flickr']
-        facebook = request.POST['facebook']
-        twitter = request.POST['twitter']
-        profile, created = Profile.objects.get_or_create(user=request.user)
-        user.profile.phone = phone
-        user.profile.address = address
-        user.profile.postal_code = postal_code
-        user.profile.city = city
-        user.profile.site_web = site_web
-        user.profile.instagram = instagram
-        user.profile.flickr = flickr
-        user.profile.facebook = facebook
-        user.profile.twitter = twitter
-        user.save()
-    return render(request, 'portfolio/edit_user.html')
+        # create a form instance and populate it with data from the request:
+        form = EditUser(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            user = request.user
+            profile, created = Profile.objects.get_or_create(user=request.user)
+            # obj = Listing()  # gets new object
+            user.profile.phone = form.cleaned_data['phone']
+            user.profile.num_ftf = form.cleaned_data['num_ftf']
+            user.profile.address = form.cleaned_data['address']
+            user.profile.postal_code = form.cleaned_data['postal_code']
+            user.profile.city = form.cleaned_data['city']
+            user.profile.site_web = form.cleaned_data['site_web']
+            user.profile.instagram = form.cleaned_data['instagram']
+            user.profile.flickr = form.cleaned_data['flickr']
+            user.profile.facebook = form.cleaned_data['facebook']
+            user.profile.twitter = form.cleaned_data['twitter']
+            # form.cleaned_data
+            user.profile.save()
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/portfolio')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = EditUser()
+
+    return render(request, 'portfolio/edit_user.html', {'form': form})

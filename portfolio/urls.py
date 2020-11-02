@@ -10,6 +10,7 @@ app_name = 'portfolio'
 urlpatterns = [
     path('list', views.list.as_view(), name="list"),
     path('gallery', views.gallery, name="gallery"),
+    path('mygallery', views.mygallery, name="mygallery"),
     path('register', views.register, name="register"),
     path('logout', views.logout_user, name="logout"),
     path('login', views.login_user, name="login"),

@@ -4,3 +4,5 @@ __pycache__
 static
 root
 000*
+db.sqlite3
+*.jpg
