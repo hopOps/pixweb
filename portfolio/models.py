@@ -12,15 +12,6 @@ from datetime import datetime
 #    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
-# class Author(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     first_name = models.CharField(max_length=60)
-#     last_name = models.CharField(max_length=60)
-#     mail = models.EmailField
-#
-#     def __str__(self):
-#         return self.first_name + " " + self.last_name
-
 
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
@@ -39,6 +30,7 @@ class Picture(models.Model):
     description = models.CharField(max_length=1000)
     pub_date = models.DateTimeField('date published')
     photo = models.ImageField(upload_to="gallery")
+    public = models.BooleanField(default=False)
 
 
 class Profile(models.Model):

@@ -4,9 +4,9 @@
 {% block content %}
 
 <h1>{{ picture.name }}</h1>
-
+<div class="container-fluid">
 <p>Type: {{ picture.category }}</p>
 <img class="img-fluid" src="{{ picture.photo }}" alt="{{ picture.name }}" width="50%" height="auto">
-
+</div>
 
 {% endblock content %}

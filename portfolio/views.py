@@ -45,8 +45,9 @@ def mygallery(request):
     return render(request, 'portfolio/mygallery.html', {'all_picture': all_picture})
 
 
+@login_required(login_url="/portfolio/login")
 def gallery(request):
-    all_picture = Picture.objects.all()
+    all_picture = Picture.objects.filter(public=False)
     paginator = Paginator(all_picture, 5)
     pages = request.GET.get('page', 1)
     #messages.warning(request, "This page will list all the picture", extra_tags='alert')
@@ -55,6 +56,17 @@ def gallery(request):
     except PageNotAnInteger:
         all_picture = paginator.page(1)
     return render(request, 'portfolio/gallery.html', {'all_picture': all_picture})
+
+
+def carousel(request):
+    all_picture = Picture.objects.filter(public=False)[:3]
+    paginator = Paginator(all_picture, 1)
+    pages = request.GET.get('page', 1)
+    try:
+        all_picture = paginator.page(pages)
+    except PageNotAnInteger:
+        all_picture = paginator.page(1)
+    return render(request, 'portfolio/carousel.html', {'all_picture': all_picture})
 
 
 def index(request):

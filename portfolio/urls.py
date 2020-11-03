@@ -16,6 +16,7 @@ urlpatterns = [
     path('login', views.login_user, name="login"),
     path('edit_user', views.edit_user, name="edit_user"),
     path('<int:pk>', views.picture.as_view(), name="picture"),
+    path('carousel', views.carousel, name="carousel"),
     path('', views.index, name="index"),
 ]
 
