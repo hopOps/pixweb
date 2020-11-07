@@ -1,11 +1,13 @@
 from django import forms
+from .models import Category
 
-# iterable
-CATEGORY_CHOICES =(
-    ("Voyage", "Voyage"),
-    ("Paysage", "Paysage"),
-    ("Portrait", "Portrait"),
-)
+
+# LIST CATEGORIES (iterable)
+def get_available_categories():
+    categories = ()
+    for item in Category.objects.all():
+        categories = categories + (((item.name), (item.name)),)
+    return categories
 
 
 class EditUser(forms.Form):
@@ -23,7 +25,7 @@ class EditUser(forms.Form):
 
 class UpdatePicture(forms.Form):
     name = forms.CharField(label='Name', max_length=20, widget=forms.TextInput(attrs={'placeholder': 'Name'}))
-    category = forms.ChoiceField(choices=CATEGORY_CHOICES)
+    category = forms.ChoiceField(choices=get_available_categories())
     description = forms.CharField(label='Description', max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Description'}))
     photo = forms.ImageField()
     # public = forms.BooleanField()
