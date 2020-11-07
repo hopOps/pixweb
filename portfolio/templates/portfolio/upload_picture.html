@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+
+
+<!--<h2>Upload a new photo</h2>-->
+
+<!--<form action="" method="POST" class="cmxform" enctype="multipart/form-data">-->
+<!--  <fieldset>-->
+<!--    <ul>-->
+<!--      <li>-->
+
+<!--        <label for="id_image">Photo</label>-->
+
+<!--      </li>-->
+
+<!--    </ul>-->
+<!--  </fieldset>-->
+<!--  <input type="submit" value="Submit" class="submit"/>-->
+<!--</form>-->
+
+<div class="col-md-8 order-md-1 position-relative" xmlns="http://www.w3.org/1999/html">
+  <h4 class="mb-3">Upload Picture</h4>
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+
+{% for field in form %}
+  <!--  <div class="fieldWrapper">-->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+        {{ field.errors }}
+         {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+          </div>
+        </div>
+{% endfor %}
+    <button type="submit" class="btn btn-light btn-sm">register</button>
+
+</form>
+</div>
+
+{% endblock content %}

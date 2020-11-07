@@ -2,7 +2,7 @@
 {% block title %}Gallery{% endblock title %}
 
 {% block content %}
-
+<main class="main">
 
 <table class="table table-bordered">
     <thead>
@@ -23,7 +23,7 @@
     <div class="col">
           <h8>{{ item.name }}</h8>
             <br/>
-          <a href="{% url 'portfolio:picture' item.id %}"><img class="img-thumbnail" src="{{ item.photo }}" alt="{{ item.name }}" width="200"></a>
+          <a href="{% url 'portfolio:carousel' item.id %}"><img class="img-thumbnail" src="{{ item.photo }}" alt="{{ item.name }}" width="200"></a>
     </div>
 
     {% endfor %}
@@ -47,5 +47,7 @@
         </tr>
     {% endif %}
 </table>
+
+</main>
 
 {% endblock content %}

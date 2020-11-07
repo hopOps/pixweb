@@ -9,8 +9,8 @@ from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 
-from .models import Picture, Profile
-from .forms import EditUser
+from .models import Picture, Profile, Category
+from .forms import EditUser, UpdatePicture
 # Create your views here.
 
 
@@ -58,15 +58,22 @@ def gallery(request):
     return render(request, 'portfolio/gallery.html', {'all_picture': all_picture})
 
 
-def carousel(request):
+def carousel(request, picture_id):
+    picture = Picture.objects.get(pk=picture_id)
     all_picture = Picture.objects.filter(public=False)[:3]
-    paginator = Paginator(all_picture, 1)
-    pages = request.GET.get('page', 1)
-    try:
-        all_picture = paginator.page(pages)
-    except PageNotAnInteger:
-        all_picture = paginator.page(1)
-    return render(request, 'portfolio/carousel.html', {'all_picture': all_picture})
+    next_picture = Picture.objects.filter(id__gt=picture_id).order_by('pk').first()
+    prev_picture = Picture.objects.filter(id__lt=picture_id).order_by('pk').first()
+    current_list = [picture, next_picture, prev_picture]
+    #paginator = Paginator(all_picture, 1)
+    #pages = request.GET.get('page', 1)
+    #try:
+    #    all_picture = paginator.page(pages)
+    #except PageNotAnInteger:
+    #    all_picture = paginator.page(1)
+    #context = {'all_picture': all_picture}
+    context = {'picture': picture, 'all_picture': all_picture, 'next_picture': next_picture, 'prev_picture': prev_picture, 'current_list': current_list}
+    return render(request, 'portfolio/carousel.html', context)
+
 
 
 def index(request):
@@ -152,3 +159,59 @@ def edit_user(request):
         form = EditUser()
 
     return render(request, 'portfolio/edit_user.html', {'form': form})
+
+#
+# def handle_uploaded_image(i):
+#     # resize image
+#     imagefile  = StringIO.StringIO(i.read())
+#     imageImage = Image.open(imagefile)
+#
+#     (width, height) = imageImage.size
+#     (width, height) = scale_dimensions(width, height, longest_side=240)
+#
+#     resizedImage = imageImage.resize((width, height))
+#
+#     imagefile = StringIO.StringIO()
+#     resizedImage.save(imagefile,'JPEG')
+#     filename = hashlib.md5(imagefile.getvalue()).hexdigest()+'.jpg'
+#
+#     # #save to disk
+#     imagefile = open(os.path.join('/tmp',filename), 'w')
+#     resizedImage.save(imagefile,'JPEG')
+#     imagefile = open(os.path.join('/tmp',filename), 'r')
+#     content = django.core.files.File(imagefile)
+#
+#     my_object = MyDjangoObject()
+#     my_object.photo.save(filename, content)
+
+
+
+@login_required
+def upload_picture(request):
+
+    if request.method == "POST":
+        form = UpdatePicture(request.POST, request.FILES)
+
+        if form.is_valid():
+            user = User.objects.get(username=request.user)
+            picture.user = user
+            picture.name = form.cleaned_data['name']
+            get_category = form.cleaned_data['category']
+            picture.category = Category.objects.get(name=get_category)
+            picture.description = form.cleaned_data['description']
+            picture.photo = form.cleaned_data['photo']
+            # picture.public = form.clean_data['public']
+            obj = Picture.objects.create(
+                user=picture.user,
+                name=picture.name,
+                category=picture.category,
+                description=picture.description,
+                photo=picture.photo,
+                public=False
+            )
+            obj.save()
+            return HttpResponseRedirect('/portfolio/gallery')
+    else:
+        form = UpdatePicture()
+    return render(request, "portfolio/upload_picture.html", {'form': form})
+

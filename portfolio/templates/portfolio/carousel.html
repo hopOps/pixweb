@@ -5,57 +5,45 @@
 
 
 <div class="carousel-inner">
-{% for picture in all_picture|slice:":3" %}
+{% for picture in current_list|slice:":3" %}
     {% if forloop.first %}
         <div class="carousel-active item">
-        <img class="img-fluid bd-placeholder-img mb-3" src="{{ picture.photo }}" alt="{{ picture.name }}">
-            <div class="carousel-caption">
-            <h3>{{ picture.name }}</h3>
-            <p>{{ picture.description }}</p>
+            <img class="img-fluid bd-placeholder-img mb-3" src="{{ picture.photo.url }}" alt="{{ picture.name }}">
+            <div class="carousel-caption d-md-block rounded position-absolute bg-custom">
+                <h3>{{ picture.name }}</h3>
+                <p>{{ picture.description }}</p>
             </div>
-      </div>
+        </div>
     {% else %}
         <div class="item">
     {% endif %}
         <!--<blockquote>
             <p>{{ picture.name }}</p>
         </blockquote>
-        <label>{{ picture.description }}</label>
-    </div> -->
-
-<div id="details" class="carousel slide" data-ride="carousel">
-  <ul class="carousel-indicators">
-      {% if forloop.first %}
-    <li data-target="#" data-slide-to="0" class="active"></li>
-      {% endif %}
-      {% if all_picture.has_previous %}
-    <li data-target="?page={{ all_picture.previous_page_number }}" data-slide-to="1"></li>
-      {% endif %}
-      {% if all_picture.has_next %}
-    <li data-target="?page={{ all_picture.next_page_number }}" data-slide-to="2"></li>
-      {% endif %}
-  </ul>
-</div>
-
+        <label>{{ picture.description }}</label>-->
+    </div>
 {% endfor %}
 </div>
 
-{% if all_picture %}
-<table>
-    <tr class="pagination">
-        {% if all_picture.has_previous %}
-  <a class="carousel-control-prev" href="?page{{ all_picture.previous_page_number }}" data-slide="prev">
+<div id="details" class="carousel slide" data-ride="carousel">
+  <ul class="carousel-indicators">
+    <li data-target="#details" data-slide-to="0" class="active"></li>
+    <li data-target="#details" data-slide-to="1"></li>
+    <li data-target="#details" data-slide-to="2"></li>
+  </ul>
+</div>
+
+
+{% if prev_picture %}
+  <a class="carousel-control-prev " href="{{ prev_picture.id }}" data-slide="prev">
     <span class="carousel-control-prev-icon"></span>
   </a>
-        {% endif %}
-        {% if all_picture.has_next %}
-  <a class="carousel-control-next" href="?page={{ all_picture.next_page_number }}" data-slide="next">
+{% endif %}
+{% if next_picture %}
+  <a class="carousel-control-next" href="{{ next_picture.id }}" data-slide="next">
     <span class="carousel-control-next-icon"></span>
   </a>
-    {% endif %}
 {% endif %}
-
-</table>
 
 
 
