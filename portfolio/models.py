@@ -4,12 +4,18 @@ from django.contrib.auth.models import User
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import os
 from datetime import datetime
+from django_resized import ResizedImageField
 
 # Create your models here.
-#def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
-#    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
+def photo_path(instance, filename):
+    basefilename, file_extension=os.path.splitext(filename)
+    now = datetime.now()
+    strdate = now.strftime("%d-%m-%y-%f")
+    return 'gallery/{username}/{strdate}{ext}'.format(username=instance.user.username, strdate=strdate, ext=file_extension)
 
 
 class Category(models.Model):
@@ -22,14 +28,14 @@ class Category(models.Model):
 
 
 class Picture(models.Model):
-    #user = models.OneToOneField(User, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     pub_date = models.DateTimeField(auto_now_add=True)
-    photo = models.ImageField(upload_to="gallery")
+    photo = ResizedImageField(size=[1920, 1080], upload_to=photo_path)
+    #photo = models.ImageField(upload_to=photo_path)
     public = models.BooleanField(default=False)
 
 

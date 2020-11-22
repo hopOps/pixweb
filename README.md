@@ -5,6 +5,7 @@
     pip install Django
     pip install Pillow
     pip install django-restframework-apiview 
+    pip install django-resized
 
 
 ## Launch web server

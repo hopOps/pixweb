@@ -49,7 +49,7 @@ def mygallery(request):
 
 @login_required(login_url="/portfolio/login")
 def gallery(request):
-    all_picture = Picture.objects.filter(public=False)
+    all_picture = Picture.objects.filter(public=False).order_by('pub_date')
     paginator = Paginator(all_picture, 5)
     pages = request.GET.get('page', 1)
     #messages.warning(request, "This page will list all the picture", extra_tags='alert')
