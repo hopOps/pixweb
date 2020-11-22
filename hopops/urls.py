@@ -22,6 +22,7 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('portfolio/', include('portfolio.urls')),
+    path('blog/', include('blog.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

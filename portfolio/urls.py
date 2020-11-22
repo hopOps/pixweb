@@ -17,13 +17,11 @@ urlpatterns = [
     path('edit_user', views.edit_user, name="edit_user"),
     path('<int:pk>', views.picture.as_view(), name="picture"),
     path('carousel/<int:picture_id>', views.carousel, name="carousel"),
-    path('carouselsample', views.carousel, name="carouselsample"),
     path('upload_image', views.upload_picture, name="upload_image"),
+    path('test', views.get_photo, name="get_photo"),
+    path('api/all_picture', views.all_picture, name="api_all_picture"),
     path('', views.index, name="index"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static('/', document_root=settings.MEDIA_ROOT)
-#urlpatterns += static('/portfolio/carousel/gallery/', document_root=settings.MEDIA_ROOT)
-
-#patterns('',# ... the rest of your URLconf goes here ...) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,7 +12,6 @@ from datetime import datetime
 #    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
-
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
@@ -32,8 +31,6 @@ class Picture(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     photo = models.ImageField(upload_to="gallery")
     public = models.BooleanField(default=False)
-
-
 
 
 class Profile(models.Model):

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Carousel{% endblock title %}
+
+{% block content %}
+
+
+<div class="carousel-inner">
+{% for picture in current_list|slice:":3" %}
+    {% if forloop.first %}
+        <div class="carousel-active item">
+            <img class="img-fluid bd-placeholder-img mb-3" src="{{ picture.photo.url }}" alt="{{ picture.name }}">
+            <div class="carousel-caption d-md-block rounded position-absolute bg-custom">
+                <h3>{{ picture.name }}</h3>
+                <p><span>©</span> {{ picture.user.first_name }} {{ picture.user.last_name }}</p>
+            </div>
+        </div>
+    {% else %}
+        <div class="item">
+        </div>
+    {% endif %}
+        <!--<blockquote>
+            <p>{{ picture.name }}</p>
+        </blockquote>
+        <label>{{ picture.description }}</label>-->
+{% endfor %}
+</div>
+
+{% if prev_picture %}
+  <a class="carousel-control-prev " href="{{ prev_picture.id }}" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+{% endif %}
+{% if next_picture %}
+  <a class="carousel-control-next" href="{{ next_picture.id }}" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+{% endif %}
+
+{% endblock content %}

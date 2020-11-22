@@ -4,6 +4,7 @@
 
     pip install Django
     pip install Pillow
+    pip install django-restframework-apiview 
 
 
 ## Launch web server
@@ -89,8 +90,40 @@ Create superuser
 
 Add theses entries on portfolio/admin.py files:
 
-    from .models import Author, Category, Picture
+    from .models import Category, Picture
     
-    admin.site.register(Author)
     admin.site.register(Category)
     admin.site.register(Picture)
+
+
+## Move templates dirs
+
+Change templates html directory
+
+    TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
+    
+    TEMPLATES = [
+    {
+        'DIRS': [TEMPLATES_DIRS],
+        'APP_DIRS': True,
+    },
+    ]
+
+The template file will be store in:
+
+- BASE_DIR/templates/portfolio
+- BASE_DIR/templates/blog
+
+
+## Start Blog
+
+Create blog app
+
+    python manage.py startapp blog
+
+Add 'portfolio' apps ins settings.py :
+
+    INSTALLED_APPS = [
+    ...
+    'portfolio',
+    ]    

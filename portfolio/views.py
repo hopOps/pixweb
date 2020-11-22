@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
-from django.http import HttpResponse, HttpResponseNotFound, request, response
+from django.http import HttpResponse, HttpResponseNotFound, request, response, JsonResponse
 from django.views import generic, View
 from django.core.exceptions import ViewDoesNotExist
 from django.contrib import messages
@@ -8,6 +8,8 @@ from django.core.paginator import Paginator, PageNotAnInteger
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from json import dumps
+from rest_framework import serializers
 
 from .models import Picture, Profile, Category
 from .forms import EditUser, UpdatePicture
@@ -62,7 +64,7 @@ def carousel(request, picture_id):
     picture = Picture.objects.get(pk=picture_id)
     all_picture = Picture.objects.filter(public=False)[:3]
     next_picture = Picture.objects.filter(id__gt=picture_id).order_by('pk').first()
-    prev_picture = Picture.objects.filter(id__lt=picture_id).order_by('pk').first()
+    prev_picture = Picture.objects.filter(id__lt=picture_id).order_by('pk').last()
     current_list = [picture, next_picture, prev_picture]
     #paginator = Paginator(all_picture, 1)
     #pages = request.GET.get('page', 1)
@@ -126,7 +128,7 @@ def register(request):
     return render(request, 'portfolio/register.html')
 
 
-@login_required
+@login_required(login_url="/portfolio/login")
 def edit_user(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -152,7 +154,7 @@ def edit_user(request):
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
-            return HttpResponseRedirect('/portfolio')
+            return HttpResponseRedirect('portfolio/index.html')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -186,7 +188,7 @@ def edit_user(request):
 
 
 
-@login_required
+@login_required(login_url="/portfolio/login")
 def upload_picture(request):
 
     if request.method == "POST":
@@ -215,3 +217,34 @@ def upload_picture(request):
         form = UpdatePicture()
     return render(request, "portfolio/upload_picture.html", {'form': form})
 
+
+def send_dictionary(request):
+    # create data dictionary
+    dataDictionary = {
+        'hello': 'World',
+        'geeks': 'forgeeks',
+        'ABC': 123,
+        456: 'abc',
+        14000605: 1,
+        'list': ['geeks', 4, 'geeks'],
+        'dictionary': {'you': 'can', 'send': 'anything', 3: 1}
+    }
+    # dump data
+    dataJSON = dumps(dataDictionary)
+    return render(request, 'portfolio/send_dictionary.html', {'data': dataJSON})
+
+
+# def get_photo(request, picture_id):
+def get_photo(request):
+    # create data dictionary
+    # picture = Picture.objects.get(pk=picture_id)
+    all_picture = Picture.objects.filter(public=False)[:10]
+    data = serializers.Serializer('json', all_picture)
+
+    # dataJSON = MedicSerializer(all_picture, many=True)
+    return render(request, 'portfolio/carouselv2.html', {'data': data})
+
+
+def all_picture(request):
+    all_picture = list(Picture.objects.values())
+    return JsonResponse(all_picture, safe=False)

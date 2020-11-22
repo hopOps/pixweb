@@ -1,8 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Carousel{% endblock title %}
 
 {% block content %}
 
+
+<script src="{% static 'carousel.js' %}"></script>
+
+<!--<a>myObj.photo</a>-->
 
 <div class="carousel-inner">
 {% for picture in current_list|slice:":3" %}
@@ -11,7 +16,7 @@
             <img class="img-fluid bd-placeholder-img mb-3" src="{{ picture.photo.url }}" alt="{{ picture.name }}">
             <div class="carousel-caption d-md-block rounded position-absolute bg-custom">
                 <h3>{{ picture.name }}</h3>
-                <p>{{ picture.description }}</p>
+                <p><span>©</span>{{ picture.user }}</p>
             </div>
         </div>
     {% else %}
