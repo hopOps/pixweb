@@ -4,5 +4,8 @@ __pycache__
 static
 root
 000*
+*/galery/*
 db.sqlite3
 *.jpg
+*/migrations/*
+!*/migrations/__init__.py

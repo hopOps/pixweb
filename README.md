@@ -116,15 +116,29 @@ The template file will be store in:
 - BASE_DIR/templates/blog
 
 
-## Start Blog
+## Create Blog
 
 Create blog app
 
     python manage.py startapp blog
 
-Add 'portfolio' apps ins settings.py :
+Add 'blog' apps ins settings.py :
 
     INSTALLED_APPS = [
     ...
     'portfolio',
+    ]    
+
+
+## Create User Profile
+
+Create profile app
+
+    python manage.py startapp user_profile
+
+Add 'user_profile' apps ins settings.py :
+
+    INSTALLED_APPS = [
+    ...
+    'user_profile',
     ]    

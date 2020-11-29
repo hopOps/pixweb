@@ -3,37 +3,44 @@
 
 {% block content %}
 
+<div class="p-5 image-border container-fluid" align="center">
+    <div class="row">
+        <div class="carousel-inner ">
+        {% for picture in current_list|slice:":3" %}
+            {% if forloop.first %}
+                <div class="carousel-active item">
+                    <img class="img-fluid rounded" src="{{ picture.photo.url }}" alt="{{ picture.name }}">
+                    <div class="carousel-caption d-md-block rounded position-absolute bg-custom">
+                        <h3>{{ picture.name }}</h3>
+                        {% if picture.user.first_name %}
+                        <p><span>©</span> {{ picture.user.first_name }} {{ picture.user.last_name }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="item">
+                </div>
+            {% endif %}
+                <!--<blockquote>
+                    <p>{{ picture.name }}</p>
+                </blockquote>
+                <label>{{ picture.description }}</label>-->
+        {% endfor %}
 
-<div class="carousel-inner">
-{% for picture in current_list|slice:":3" %}
-    {% if forloop.first %}
-        <div class="carousel-active item">
-            <img class="img-fluid bd-placeholder-img mb-3" src="{{ picture.photo.url }}" alt="{{ picture.name }}">
-            <div class="carousel-caption d-md-block rounded position-absolute bg-custom">
-                <h3>{{ picture.name }}</h3>
-                <p><span>©</span> {{ picture.user.first_name }} {{ picture.user.last_name }}</p>
-            </div>
+            {% if prev_picture %}
+              <a class="carousel-control-prev " href="{{ prev_picture.id }}" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </a>
+            {% endif %}
+            {% if next_picture %}
+              <a class="carousel-control-next" href="{{ next_picture.id }}" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </a>
+            {% endif %}
+
         </div>
-    {% else %}
-        <div class="item">
-        </div>
-    {% endif %}
-        <!--<blockquote>
-            <p>{{ picture.name }}</p>
-        </blockquote>
-        <label>{{ picture.description }}</label>-->
-{% endfor %}
+    </div>
 </div>
 
-{% if prev_picture %}
-  <a class="carousel-control-prev " href="{{ prev_picture.id }}" data-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </a>
-{% endif %}
-{% if next_picture %}
-  <a class="carousel-control-next" href="{{ next_picture.id }}" data-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </a>
-{% endif %}
 
 {% endblock content %}

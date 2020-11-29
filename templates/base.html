@@ -3,25 +3,27 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <!-- Bootstrap CSS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!-- My stylesheet -->
     <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+
     <title>{% block title %}{% endblock title %}</title>
 </head>
-<body>
-
-<!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-
 
 <body>
 
+<div class="mytop">
+<header class="container-fluid">
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top nav">
-
-  <div class="collapse navbar-collapse" id="navbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse"
+          aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+    </button>
+  <div class="collapse navbar-collapse" id="navbar-collapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'portfolio:index' %}">Home <span class="sr-only">(current)</span></a>
@@ -34,34 +36,32 @@
       </li>
       </ul>
       {% if user.is_authenticated %}
-      <form class="form-inline my-2 my-lg-0">
-          <a class="btn btn-secondary my-2 my-sm-0" href="{% url 'portfolio:upload_image' %}" >Upload</a>
-      </form>
+          <li class="nav-item">
+          <a class="btn btn-secondary nav-link" href="{% url 'portfolio:upload_image' %}" >Upload</a>
+          </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.get_username }}</a>
-        <div class="dropdown-menu" aria-labelledby="dropdown01">
+           <div class="dropdown-menu" aria-labelledby="dropdown01">
           {% if request.user.is_staff %}
             <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
           {% endif %}
           <a class="dropdown-item" href="{% url 'portfolio:mygallery' %}">My Gallery</a>
-          <a class="dropdown-item" href="{% url 'portfolio:edit_user' %}">Edit Profile</a>
-          <a class="dropdown-item" href="{% url 'portfolio:logout' %}">Logout</a>
+          <a class="dropdown-item" href="{% url 'user_profile:edit_user' %}">My Profile</a>
+          <a class="dropdown-item" href="{% url 'user_profile:logout' %}">Logout</a>
         </div>
       </li>
+      </ul>
       {% else %}
-    <form class="form-inline my-2 my-lg-0">
-      <a class="btn btn-secondary my-2 my-sm-0" href="{% url 'portfolio:login' %}" >Login</a>
+    <form class="form-inline">
+      <a class="btn btn-secondary" href="{% url 'user_profile:login' %}" >Login</a>
     </form>
     {% endif %}
   </div>
+
 </nav>
-</body>
+</header>
 
-
-
-<main role="main" class="container">
-
-  <div class="mt-5 wrap">
+</div>
   {% if messages %}
     <ul class="messages">
         {% for msg in messages %}
@@ -73,14 +73,87 @@
         {% endfor %}
     </ul>
   {% endif %}
-  </div>
+<main>
+
   {% block content %}
 
   {% endblock content %}
+</main>
 
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4 bg-light border">
 
+  <!-- Footer Links -->
+  <div class="container-fluid text-center text-md-left">
 
-</main><!-- /.container -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script></body>
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-md-6 mt-md-0 mt-3">
+
+        <!-- Content -->
+        <h5 class="text-uppercase">About</h5>
+        <p>Here you can use rows and columns to organize your footer content.</p>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none pb-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
+
+        <!-- Links -->
+        <h5 class="text-uppercase">Social Media</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="https://www.instagram.com/hopops8/">Instagram</a>
+          </li>
+          <li>
+            <a href="#!">Twitter</a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com">Facebook</a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/franck-collen/">Linkedin</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="https://franck-collen.com/"> franck-collen.com</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+</body>
+
+<!-- Utils js libs -->
+<script src="{% static 'utils.js' %}"></script>
+<!-- jQuery and JS bundle w/ Popper.js -->
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
 </html>

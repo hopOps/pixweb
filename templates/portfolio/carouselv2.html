@@ -4,52 +4,53 @@
 
 {% block content %}
 
+<div class="album">
 
-<script src="{% static 'carousel.js' %}"></script>
+    <div class="container bg-dark">
+        <div class="row p-1 m-1 ">
 
-<!--<a>myObj.photo</a>-->
-
-<div class="carousel-inner">
-{% for picture in current_list|slice:":3" %}
-    {% if forloop.first %}
-        <div class="carousel-active item">
-            <img class="img-fluid bd-placeholder-img mb-3" src="{{ picture.photo.url }}" alt="{{ picture.name }}">
-            <div class="carousel-caption d-md-block rounded position-absolute bg-custom">
-                <h3>{{ picture.name }}</h3>
-                <p><span>©</span>{{ picture.user }}</p>
+            <div class="col">
+            {% if prev_picture %}
+                <a class="carousel-control-prev" href="{{ prev_picture.id }}" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+            {% endif %}
             </div>
+
+
+
+
+            <div class="col col-md-9">
+
+                <div class="card mb-4 shadow">
+
+                    <img class="card text-center" src="{{picture.photo.url}}">
+
+                        <div class="">
+                            <footer class="blockquote-footer text-center">
+                            <small class="text-muted">
+                            <h3>{{ picture.name }}</h3>
+                            {% if picture.user.first_name %}
+                                <p><span>©</span> {{ picture.user.first_name }} {{ picture.user.last_name }}</p>
+                            {% endif %}
+                            </small>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="col">
+                {% if next_picture %}
+                <a class="carousel-control-next" href="{{ next_picture.id }}" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+                {% endif %}
+            </div>
+
+
+            </div>
+
         </div>
-    {% else %}
-        <div class="item">
-    {% endif %}
-        <!--<blockquote>
-            <p>{{ picture.name }}</p>
-        </blockquote>
-        <label>{{ picture.description }}</label>-->
     </div>
-{% endfor %}
 </div>
-
-<div id="details" class="carousel slide" data-ride="carousel">
-  <ul class="carousel-indicators">
-    <li data-target="#details" data-slide-to="0" class="active"></li>
-    <li data-target="#details" data-slide-to="1"></li>
-    <li data-target="#details" data-slide-to="2"></li>
-  </ul>
-</div>
-
-
-{% if prev_picture %}
-  <a class="carousel-control-prev " href="{{ prev_picture.id }}" data-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </a>
-{% endif %}
-{% if next_picture %}
-  <a class="carousel-control-next" href="{{ next_picture.id }}" data-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </a>
-{% endif %}
-
-
-
 {% endblock content %}

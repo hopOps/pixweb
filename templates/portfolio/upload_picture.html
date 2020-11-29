@@ -3,44 +3,36 @@
 {% block title %}Upload Image{% endblock title %}
 
 {% block content %}
-<main class="main">
 
-<!--<h2>Upload a new photo</h2>-->
+<div class="p-1"></div>
 
-<!--<form action="" method="POST" class="cmxform" enctype="multipart/form-data">-->
-<!--  <fieldset>-->
-<!--    <ul>-->
-<!--      <li>-->
+<div class="col-4" xmlns="http://www.w3.org/1999/html">
+  <h4 class="mb-4">Upload Picture</h4>
+</div>
 
-<!--        <label for="id_image">Photo</label>-->
-
-<!--      </li>-->
-
-<!--    </ul>-->
-<!--  </fieldset>-->
-<!--  <input type="submit" value="Submit" class="submit"/>-->
-<!--</form>-->
-
-<div class="col-md-8 order-md-1 position-relative" xmlns="http://www.w3.org/1999/html">
-  <h4 class="mb-3">Upload Picture</h4>
+<div class="col-6" xmlns="http://www.w3.org/1999/html">
 <form method="post" enctype="multipart/form-data">
 {% csrf_token %}
 
 {% for field in form %}
   <!--  <div class="fieldWrapper">-->
-        <div class="row">
-          <div class="col-md-6 mb-3">
+        <div class="form-group row p-1 m-1">
+          <!--<div class="col-md-6 mb-3">-->
         {{ field.errors }}
-         {{ field.label_tag }} {{ field }}
+         <a class="col-sm-2">{{ field.label_tag }}</a>
+            <div class="col-sm-4">
+                {{ field }}
+            </div>
         {% if field.help_text %}
         <p class="help">{{ field.help_text|safe }}</p>
         {% endif %}
-          </div>
+         <!-- </div>-->
         </div>
 {% endfor %}
-    <button type="submit" class="btn btn-light btn-sm">Submit</button>
+    <div class="row p-1 m-1 text-center">
+        <button type="submit" class="btn btn-light btn-primary btn-block">Submit</button>
+    </div>
 
 </form>
 </div>
-</main>
 {% endblock content %}

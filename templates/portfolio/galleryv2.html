@@ -18,8 +18,10 @@
 </div>
 <div class="row">
     <div class="col p-3">
+        {% for pictures in all_picture %}
         <div class="row">
-        {% for item in all_picture %}
+        {% for item in pictures %}
+
             <div class="col {{ item.category }} category" id="category" align="center">
                   <h8>{{ item.name }}</h8>
                     <br/>
@@ -27,23 +29,7 @@
             </div>
         {% endfor %}
         </div>
-
-        {% if all_picture %}
-        <table>
-            <tr class="pagination">
-                {% if all_picture.has_previous %}
-                    <td><a href="?page{{ all_picture.previous_page_number }}">Previous</a></td>
-                {% endif %}
-                        <td class="">
-                            <span>{{ all_picture.number }} of {{ all_picture.paginator.num_pages }}.</span>
-                        </td>
-                {% if all_picture.has_next %}
-                    <td><a href="?page={{ all_picture.next_page_number }}">Next</a></td>
-                {% endif %}
-
-                </tr>
-            {% endif %}
-        </table>
+        {% endfor %}
 
     </div>
 </div>

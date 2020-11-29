@@ -1,4 +1,6 @@
 django
 Pillow
 django-restframework-apiview
+djangorestframework
+django-cors-headers
 django-resized

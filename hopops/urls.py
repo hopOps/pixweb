@@ -21,9 +21,12 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('user_profile/', include('user_profile.urls')),
     path('portfolio/', include('portfolio.urls')),
     path('blog/', include('blog.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#urlpatterns += path('', include('portfolio.urls')),
