@@ -14,6 +14,10 @@ from user_profile.models import Profile
 from django.contrib.auth.models import User
 from .models import Picture, Category
 from .forms import UpdatePicture
+
+# Rest
+from rest_framework import viewsets
+from .serializers import PictureSerializer, CategorySerializer
 # Create your views here.
 
 
@@ -155,6 +159,11 @@ def get_photo(request):
     return render(request, 'portfolio/carouselv2.html', {'data': data})
 
 
-def all_picture(request):
-    all_picture = list(Picture.objects.values())
-    return JsonResponse(all_picture, safe=False)
+# def all_picture(request):
+#     all_picture = list(Picture.objects.values())
+#     return JsonResponse(all_picture, safe=False)
+
+
+class pictures(viewsets.ModelViewSet):
+    serializer_class = PictureSerializer
+    queryset = Picture.objects.all()

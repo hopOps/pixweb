@@ -3,20 +3,53 @@
 
 {% block content %}
 
-<div class="row">  
-    <div class="col-3 offset-md-4 text-center">    
+<style>
+.bg-login {
+    background: url("../static/img/lac-cenis.jpg") no-repeat;
+    background-position: top;
+    overflow: hidden;
+    height: 700px;
+    white-space: nowrap;
+<!--    height: 100vh;-->
+<!--    width: auto;-->
+<!--    filter: blur(1px);-->
+<!--}-->
+<!--.box-center {-->
+<!--    height: 200px;-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--    justify-content: center;-->
+<!--}-->
+</style>
+
+<container class="container-fluid m-0 p-0">
+<div class="bg-login">
+{% if messages %}
+    <ul class="messages">
+        {% for msg in messages %}
+        <li>
+            <div class="alert alert-info" role="alert">
+            {{msg.message}}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="row m-0 p-2">
+    <div class="col-8 col-sm-6 col-lg-4 col-xl-3 offset-2 xl-offset-3 text-center p-5">
         <form method="post" class="form-signin">
             {% csrf_token %}
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <input class="form-control" type="username" name="username" placeholder="Username" />
-            <input class="form-control" type="password" name="password" placeholder="Password">
-            <button class="btn btn-light btn-primary btn-block" type="submit">Submit</button>
+            <input class="form-control m-1" type="username" name="username" placeholder="Username" />
+            <input class="form-control m-1" type="password" name="password" placeholder="Password">
+            <button class="btn btn-light btn-primary btn-block m-1" type="submit">Submit</button>
         </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col-3 offset-md-4 text-center">
+        <div class="m2">
         <a>Not register: <a href="{% url 'user_profile:register' %}">Here</a></a>
+        </div>
     </div>
 </div>
+</div>
+</container>
 {% endblock content %}

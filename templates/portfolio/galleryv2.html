@@ -17,20 +17,16 @@
     </div>
 </div>
 <div class="row">
-    <div class="col p-3">
-        {% for pictures in all_picture %}
-        <div class="row">
+    {% for pictures in all_picture %}
         {% for item in pictures %}
 
-            <div class="col {{ item.category }} category" id="category" align="center">
+            <div class="col-2 {{ item.category }} category" id="category" align="center">
                   <h8>{{ item.name }}</h8>
                     <br/>
                   <a href="{% url 'portfolio:carouselv2' item.id %}"><img class="img-thumbnail" src="{{ item.photo }}" alt="{{ item.name }}" width="200"></a>
             </div>
         {% endfor %}
-        </div>
         {% endfor %}
 
-    </div>
 </div>
 {% endblock content %}

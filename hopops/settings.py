@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',  # restjson
+    'rest_framework',  # restjson
     'user_profile',
     'portfolio',
     'blog',
@@ -52,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # corsherders to filter
 ]
 
 ROOT_URLCONF = 'hopops.urls'
@@ -139,3 +142,9 @@ DJANGORESIZED_DEFAULT_KEEP_META = True
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+
+# we whitelist localhost:3000 because that's where frontend will be served
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    'https://127.0.0.1:8000'
+ )

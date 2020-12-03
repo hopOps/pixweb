@@ -1,11 +1,17 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from rest_framework import routers
+
 from . import views
 
 app_name = 'portfolio'
+
+router = routers.DefaultRouter()
+router.register(r'pictures', views.pictures, 'pictures')
+
 
 urlpatterns = [
     path('list', views.list.as_view(), name="list"),
@@ -17,7 +23,8 @@ urlpatterns = [
     path('carouselv2/<int:picture_id>', views.carouselv2, name="carouselv2"),
     path('upload_image', views.upload_picture, name="upload_image"),
     path('test', views.get_photo, name="get_photo"),
-    path('api/all_picture', views.all_picture, name="api_all_picture"),
+ #   path('api/all_picture', views.all_picture, name="api_all_picture"),
+    path('api/', include(router.urls)),
     path('', views.index, name="index"),
 ]
 
